@@ -1,13 +1,79 @@
 import fetch from "node-fetch";
 
-function $(selector: string): any {
-  return {} as any;
+class SelectorResult {
+  #elements
+  constructor(elements: NodeListOf<Element>) {
+    this.#elements = elements;
+  }
+
+  html(contents: string) {
+    // Loop over all elements found
+    for (const element of this.#elements) {
+      // Set the innerHTML with the string provided
+      element.innerHTML = contents;
+    }
+  }
+
+  on<K extends keyof ElementEventMap>(eventName: K, callbackArgument: (event: ElementEventMap[K]) => void) {
+    // Loop over all elements found
+    this.#elements.forEach((element) => {
+      // Add an event listener to each element
+      element.addEventListener<K>(eventName, callbackArgument);
+    });
+  }
+
+  show() {
+    // Loop over all elements found
+    this.#elements.forEach((element) => {
+      // Add an event listener to each element
+      const htmlElement = element as HTMLElement;
+      htmlElement.style.visibility = "visible";
+    });
+  }
+
+  hide() {
+    // Loop over all elements found
+    this.#elements.forEach((element) => {
+      // Add an event listener to each element
+      const htmlElement = element as HTMLElement;
+      htmlElement.style.visibility = "hidden";
+    });
+  }
 }
 
+function $(selector: string) {
+  return new SelectorResult(
+    document.querySelectorAll(selector)
+  );
+}
+
+// namespace needs to follow (lower in code) than the function it is extending
 namespace $ {
-  export function ajax(...args: any[]): any {
-    return {} as any;
+  export function ajax({
+    url,
+    callback
+  }: {
+    url: string,
+    callback: (data: any) => void
+  }): any {
+    return fetch(url)
+    .then(response => response.json())
+    .then(callback)
   }
 }
 
 export default $;
+
+// $("button.continue").html("Next Step...")
+// const hiddenBox = $("#banner-message")
+// $("#button-container button").on("click", (event) => {
+//   hiddenBox.show()
+// })
+// $.ajax({
+//   url: "https://jsonplaceholder.typicode.com/posts/33",
+//   success: (result) => {
+//     $("#post-info").html(
+//       "<strong>" + result.title + "</strong>" + result.body
+//     )
+//   },
+// })

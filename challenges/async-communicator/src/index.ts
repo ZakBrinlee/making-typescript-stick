@@ -1,7 +1,18 @@
 import { expectType } from "tsd";
 
+/**
+ * Challenge: 
+ * Create a utility type WrapForPenpal<T> that takes an object T with methods
+ * (you may assume no non-function properties are ever on this object),
+ * and emits a type with similar methods, but any non-promise return types
+ * become ”Promise-ified”.
+ */
 // IMPLEMENT THIS TYPE
-export type WrapForPenpal<T> = any;
+export type WrapForPenpal<T> = {
+  [K in keyof T]: T[K] extends { (...arg: infer Args): infer RT } 
+    ? (...arg: Args) =>Promise<RT>
+    : never
+}
 
 /**
  * Test Scenario - Do not change anything below this line
