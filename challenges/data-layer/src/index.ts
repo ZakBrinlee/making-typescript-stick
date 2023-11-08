@@ -22,7 +22,7 @@ type DataStoreMethods = {
 } & {
   [K in keyof DataEntityMap as `clear${Capitalize<K>}s`]: () => void
 }
-
+// foreach Key in DataEntityMap => create new method using template literal types and key remapping
 
 function isDefined<T>(x: T | undefined): x is T {
   // Check if typeof x is undefined

@@ -25,8 +25,9 @@ class SelectorResult {
   show() {
     // Loop over all elements found
     this.#elements.forEach((element) => {
-      // Add an event listener to each element
+      // Cast element to HTMLElEMENT (just for this case, not suggested for production code)
       const htmlElement = element as HTMLElement;
+      // Change visibility to visible
       htmlElement.style.visibility = "visible";
     });
   }
@@ -34,9 +35,10 @@ class SelectorResult {
   hide() {
     // Loop over all elements found
     this.#elements.forEach((element) => {
-      // Add an event listener to each element
+      // Cast element to HTMLElEMENT (just for this case, not suggested for production code)
       const htmlElement = element as HTMLElement;
       htmlElement.style.visibility = "hidden";
+      // Change visibility to hidden
     });
   }
 }

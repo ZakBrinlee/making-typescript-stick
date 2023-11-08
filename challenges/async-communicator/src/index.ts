@@ -13,6 +13,8 @@ export type WrapForPenpal<T> = {
     ? (...arg: Args) =>Promise<RT>
     : never
 }
+// For each Key in Type =>
+// if Type[Key] is a function return function with same args but return type is Promise<Type[Key]>
 
 /**
  * Test Scenario - Do not change anything below this line
